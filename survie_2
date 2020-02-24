@@ -1,0 +1,358 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+
+/// valeurs aléatoires pour les 2 actions 'chasse' et 'coupe'
+int a = 1;
+int b = 3;
+int c = 1;
+int d = 3;
+int rand_a_b(int a, int b){
+			srand( time ( NULL ) );
+			return rand()%(b-a) +a;
+}
+int rand_c_d(int c, int d){
+			srand( time ( NULL ) );
+			return rand()%(d-c) +c;
+}
+
+int main(){
+	int faim = 0;
+	int froid = 0;
+	int fatigue = 0;
+    int tour = 13;
+	int nourri = 8;
+	int bois = 8;
+	int defense =0;
+	int vie = 3;
+
+
+printf("Vous êtes un aventurier solitaire parti en expédition dans un endroit froid et hostile \nvous avez trouvé un modeste refuge au coeur d'une forêt enneigée \nAutour de vous rodent des prédateurs qui ont tout aussi faim que vous \nOBJECTIF : Survivre une semaine dans ce refuge en faisant attention à votre faim, votre froid, votre santé, votre fatigue. La fatigue, le froid, la faim augmentent à chaque tour si leurs valeurs tombent à 10 vous perdez \nChaque jour et chaque nuit vous aurez une action spécifique à prendre. Bon courage. \n\n\n");
+   
+
+       
+    while (1){
+	    tour -= 1;
+	    if (tour == 0){
+		    printf("Vous avez gagnez (VICTOIRE)\n");
+		    break;
+	    }
+	
+		printf("Niveau de faim : %d  Niveau de froid : %d  Niveau de fatigue : %d \n", faim, froid, fatigue);
+	    printf("Protection du refuge : %d  Points de vie : %d \n", defense, vie);
+	    printf("Ressource de bois : %d  Ressource de nourriture : %d \n", bois, nourri);
+	    
+	    		
+		int chasse = rand_a_b(1,3);
+		int coupe = rand_c_d(1,3);
+            
+        faim += 1;
+    	froid += 1;
+		fatigue += 1;
+			
+/////////////////////
+	
+		if (faim >= 10){
+			printf("Vous mourrez de faim (DEFAITE)\n");
+			break;
+		}
+		if (froid >= 10){
+			printf("Vous mourrez de froid (DEFAITE)\n");
+			break;
+		}
+		if (fatigue >= 10){
+			printf("Votre fatigue est extrême, vous sombrez dans la folie (DEFAITE)\n");
+			break;
+		}
+        if (vie <= 0){
+			printf("Votre succombez à vos blessures (DEFAITE)\n");
+			break;
+		}
+        
+        if (nourri <= 0){
+			printf("Vous n'avez plus de nourriture, la faim se fait sentir beaucoup plus\n");
+			faim += 2;
+		}
+        if (bois <= 0){
+			printf("Vous n'avez plus de bois, le froid se fait sentir beaucoup plus\n");
+			froid += 2;
+		}
+        
+        
+             
+        
+            if (tour==12){
+                int choix12 = 0;
+	            printf("JOUR 1 : C'est votre premier jour dans ce refuge, vous vous sentez d'attaque pour faire une activité, mais laquelle ? : partir chasser(1), couper du bois(2), consolider l'abri(3) ?");
+	    	    scanf("%d", &choix12);
+
+		        if (choix12 == 1){
+		        	printf("Grace à des pièges posés méticuleusement vous récupérez %d de nourriture \n", chasse);
+		    	    nourri = nourri + chasse;	
+	    	    }
+	    	    else if (choix12 == 2){
+		        	printf("Epuisé par le travail vous avez néanmoins réussi à accumuler %d de bois, vous perdez 2 pts de fatigue \n", coupe);
+			        bois = bois + coupe;
+			        fatigue += 1;
+	        	}
+	    	    else if (choix12 == 3){
+		        	printf("Vous utlisez un petit stock de bois pour barricader davantage l'abri, vous perdez un peu de bois et cela vous fatigue mais au moins l'abri est plus sur \n");
+		    	    fatigue += 1;
+		        	bois -= 3;
+		        	defense += 1;
+		   	    }
+            }
+            
+            if (tour==11){
+                int choix11 = 0;
+	            printf("NUIT 1 : Première nuit dans le refuge vous mangez quelques provisions puis... ? : vous vous reposez(1), vous réchauffez l'abri et surveillez les environs(2) ?");
+	    	    scanf("%d", &choix11);
+
+		        if (choix11 == 1){
+		        	printf("Le refuge ne s'est pas fait attaqué, vous avez bien dormi et avez récupéré des forces \n");
+		    	    fatigue -= 3;
+	    	    }
+	    	    else if (choix11 == 2){
+		        	printf("Le refuge ne s'est pas fait attaqué, vous êtes réchauffé mais néanmoins un peu fatigué \n");
+			        bois -= 2;
+			        froid -= 2;
+			        fatigue += 1;
+	        	}
+            }
+			
+			if (tour==10){
+                int choix10 = 0;
+	            printf("JOUR 2 : Le ciel est dégagé et les prédateurs semblent loin, vous pouvez en profiter : partir chasser(1), couper du bois(2), consolider l'abri(3), rester pour manger + vous reposer + vous réchauffer(4) ?");
+	    	    scanf("%d", &choix10);
+
+		        if (choix10 == 1){
+		        	printf("Grace à des pièges posés méticuleusement vous récupérez %d de nourriture \n", chasse);
+		    	    nourri = nourri + chasse;	
+	    	    }
+	    	    else if (choix10 == 2){
+		        	printf("Epuisé par le travail vous avez néanmoins réussi à accumuler %d de bois \n", coupe);
+			        bois = bois + coupe;
+			        fatigue += 1;
+	        	}
+	    	    else if (choix10 == 3){
+		        	printf("Vous utlisez un petit stock de bois pour barricader davantage l'abri, vous perdez un peu de bois et cela vous fatigue mais au moins l'abri est plus sur \n");
+		    	    fatigue += 1;
+		        	bois -= 3;
+		        	defense += 1;
+		   	    }
+		   	    else if (choix10 == 4){
+		        	printf("Manger et vous réchauffer vous fait du bien, vous utilisez un peu vos réserves\n");
+		    	    fatigue -= 3;
+		    	    froid -= 2;
+		    	    faim -= 3;
+		    	    bois -= 2;
+		        	nourri -= 2;
+		   	    }
+            }
+            
+			 if (tour==9){
+                int choix9 = 0;
+	            printf("NUIT 2 : Un prédateur tourne autour de l'abri, bizarrement il semble seul mais vous n'êtes pas sur, peut-être est-il blessé ? Que faites-vous ? : sortir et l'attaquer(1), lui donner de la nourriture pour qu'il s'en aille(2), ne rien faire(3)");
+	    	    scanf("%d", &choix9);
+
+		        if (choix9 == 1){
+		        	printf("Vous sortez avec votre hache prêt à en découdre, vous assainez un coup à l'animal mais celui-ci riposte vous griffant affreusement. Vous réussissez à vaincre la bête récupérant sur sa dépouille un stock de nourriture important mais vous avez été blessé \n");
+		    	    vie -= 1;
+		    	    nourri += 3;
+	    	    }
+	    	    else if (choix9 == 2){
+		        	printf("Vous balancez des morceaux de viande à l'animal, celui-ci déguerpit au loin avec votre butin plutôt satisfait \n");
+			        nourri -= 3;
+			 	}
+	            else if (choix9 == 3){
+		        	printf("Vous attendez des bonnes heures avant que l'animal déguerpit, cela vous à fatigué et vous a rendu pas mal inquiet \n");
+			        fatigue += 2;
+			 	}
+            }
+            
+			if (tour==8){
+                int choix8 = 0;
+	            printf("JOUR 3 : Pendant une de vos expeditions vous repérez une cabane abandonnée construite tout en haut d'un grand arbre mais l'échelle pour y accéder est cassée, la curiosité vous guide pour aller y jeter un oeil Que faites-vous ?. Grimper à l'arbre(1), Réparer l'échelle et monter(2), Ne rien faire(3)");
+	    	    scanf("%d", &choix8);
+
+		        if (choix8 == 1){
+		        	printf("Vous grimpez tout en haut de l'arbre, à l'intérieur de la cabane se trouve une réserve de nourriture et de bois. Vous prenez tout et repartez mais épuisé par l'effort vous tombez à mi-chemin de l'arbre et vous vous blessez \n");
+		    	    vie -= 1;
+		    	    fatigue += 1;
+		    	    nourri += 3;
+		    	    bois += 3;
+	    	    }
+	    	    else if (choix8 == 2){
+		        	printf("Vous réparez l'échelle à l'aide du bois que vous possédez. Tout en haut de l'arbre, à l'intérieur de la cabane se trouve une réserve de nourriture et de bois, vous prenez tout et repartez \n");
+			        nourri += 3;
+			        bois += 1;
+			 	}
+	            else if (choix8 == 3){
+		        	printf("Vous repartez bredouille, de toute façon vous le sentiez pas trop \n");
+			 	}
+            }
+            if (tour==7){
+                int choix7 = 0;
+	            printf("NUIT 3 : La nuit tombe vous mangez quelques provisions puis... ? : vous vous reposez(1), vous réchauffez l'abri et surveillez les environs(2) ?");
+	    	    scanf("%d", &choix7);
+
+		        if (choix7 == 1){
+		                if (defense>=1){
+		        	    printf("Le refuge se fait attaqué par des prédateurs, heureusement il est assez protégé et vous pouvez vous reposez un peu \n");
+		    	        fatigue -= 2;
+		                }
+		                else if (defense<=1){
+		                printf("Le refuge se fait attaqué par des prédateurs, malheuresement il n'est pas assez protégé. Vous vous défendez pour repousser les monstres mais ces derniers arrivent à vous blesser et vous voler de la nourriture. Cela vous à aussi fatigué \n");    
+		                fatigue += 1;
+		                vie -= 1;
+		                nourri -= 3;
+		                }
+	    	    }
+	    	    else if (choix7 == 2){
+		        	printf("Le refuge se fait attaqué, vous êtes réchauffé est prêt à l'action. Vous arrivez à fair fuir les monstres et à en abattre un ce qui vous fera de la nourriture en plus. Vous êtes néanmoins fatigué \n");
+			        bois -= 2;
+			        nourri +=2;
+			        froid -= 2;
+			        fatigue += 1;
+	        	}
+            }
+            if (tour==6){
+                int choix6 = 0;
+	            printf("JOUR 4 : Le ciel est dégagé et les prédateurs semblent loin, vous pouvez en profiter : partir chasser(1), couper du bois(2), consolider l'abri(3), rester pour manger + vous reposer + vous réchauffer(4) ?");
+	    	    scanf("%d", &choix6);
+
+		        if (choix6 == 1){
+		        	printf("Grace à des pièges posés méticuleusement vous récupérez %d de nourriture \n", chasse);
+		    	    nourri = nourri + chasse;	
+	    	    }
+	    	    else if (choix6 == 2){
+		        	printf("Epuisé par le travail vous avez néanmoins réussi à accumuler %d de bois \n", coupe);
+			        bois = bois + coupe;
+			        fatigue += 1;
+	        	}
+	    	    else if (choix6 == 3){
+		        	printf("Vous utlisez un petit stock de bois pour barricader davantage l'abri, vous perdez un peu de bois et cela vous fatigue mais au moins l'abri est plus sur \n");
+		    	    fatigue += 1;
+		        	bois -= 3;
+		        	defense += 1;
+		   	    }
+		   	    else if (choix6 == 4){
+		        	printf("Manger et vous réchauffer vous fait du bien, vous utilisez un peu vos réserves\n");
+		    	    fatigue -= 3;
+		    	    froid -= 2;
+		    	    faim -= 3;
+		    	    bois -= 2;
+		        	nourri -= 2;
+		   	    }
+            }
+            if (tour==5){
+                int choix5 = 0;
+	            printf("NUIT 4 : Une violente tempête de grêle s'abbat sur le refuge, certaines protections cassent (défense -1), des bourrasques de vent font disparaitre une petite partie de vos provisions (-2 en ressources");
+	    	    defense -= 1;
+                bois -= 2;
+		        nourri -= 2;
+            }
+            if (tour==4){
+                int choix4 = 0;
+	            printf("JOUR 5 : La tempête vous a un peu anéanti, mais il reste de l'espoir que décidez-vous ? : partir chasser(1), couper du bois(2), consolider l'abri(3), rester pour manger + vous reposer + vous réchauffer(4) ?");
+	    	    scanf("%d", &choix4);
+
+		        if (choix4 == 1){
+		        	printf("Grace à des pièges posés méticuleusement vous récupérez %d de nourriture \n", chasse);
+		    	    nourri = nourri + chasse;	
+	    	    }
+	    	    else if (choix4 == 2){
+		        	printf("Epuisé par le travail vous avez néanmoins réussi à accumuler %d de bois \n", coupe);
+			        bois = bois + coupe;
+			        fatigue += 1;
+	        	}
+	    	    else if (choix4 == 3){
+		        	printf("Vous utlisez un petit stock de bois pour barricader davantage l'abri, vous perdez un peu de bois et cela vous fatigue mais au moins l'abri est plus sur \n");
+		    	    fatigue += 1;
+		        	bois -= 3;
+		        	defense += 1;
+		   	    }
+		   	    else if (choix4 == 4){
+		        	printf("Manger et vous réchauffer vous fait du bien, vous utilisez un peu vos réserves\n");
+		    	    fatigue -= 3;
+		    	    froid -= 2;
+		    	    faim -= 3;
+		    	    bois -= 2;
+		        	nourri -= 2;
+		   	    }
+            }
+            if (tour==3){
+                int choix3 = 0;
+	            printf("NUIT 5 : La nuit tombe, vous mangez quelques provisions puis... ? : vous vous reposez(1), vous réchauffez l'abri et surveillez les environs(2) ?");
+	    	    scanf("%d", &choix3);
+
+		        if (choix3 == 1){
+		        	printf("Le refuge ne s'est pas fait attaqué, vous avez bien dormi et avez récupéré des forces \n");
+		    	    fatigue -= 3;
+	    	    }
+	    	    else if (choix3 == 2){
+		        	printf("Le refuge ne s'est pas fait attaqué, vous êtes réchauffé mais néanmoins un peu fatigué \n");
+			        bois -= 2;
+			        froid -= 2;
+			        fatigue += 1;
+	        	}
+            }
+            if (tour==2){
+                int choix2 = 0;
+	            printf("JOUR 6 : Un marchand itinérant vient frapper à votre porte, il vous propose du troc d'objets. Que décidez-vous ? : Echanger 3 de bois contre 3 de nourriture(1), Echanger 3 de nourriture contre 3 de bois(2), Echanger 3 de bois et 3 de nourriture contre une protection de survie(3), Ne rien faire(4) ");
+	    	    scanf("%d", &choix2);
+
+		        if (choix2 == 1){
+		        	printf("Vous effectuez l'échange de ressources");
+		    	    nourri += 3;
+		    	    bois -=3;
+	    	    }
+	    	    else if (choix2 == 2){
+		        	printf("Vous effectuez l'échange de ressources");
+			        nourri -= 3;
+		    	    bois +=3;
+	        	}
+	    	    else if (choix2 == 3){
+		        	printf("Vous gagnez cette fameuse protection augmentant votre résistance au froid et aux blessures");
+		    	    nourri -= 3;
+		    	    bois -=3;
+		        	vie += 1;
+		        	froid -=2;
+		   	    }
+		   	    else if (choix2 == 4){
+		        	printf("Le marchand repart bredouille, l'échange était trop cher pour vous");
+		   	    }
+            }
+            if (tour==1){
+                int choix1 = 0;
+	            printf("NUIT 3 : La nuit tombe vous mangez quelques provisions puis... ? : vous vous reposez(1), vous réchauffez l'abri et surveillez les environs(2) ?");
+	    	    scanf("%d", &choix1);
+
+		        if (choix1 == 1){
+		                if (defense>=2){
+		        	    printf("Le refuge se fait attaqué par des prédateurs, heureusement il est assez protégé et vous pouvez vous reposez un peu \n");
+		    	        fatigue -= 2;
+		                }
+		                else if (defense<=2){
+		                printf("Le refuge se fait attaqué par des prédateurs, malheuresement il n'est pas assez protégé. Vous vous défendez pour repousser les monstres mais ces derniers arrivent à vous blesser et vous voler de la nourriture. Cela vous à aussi fatigué \n");    
+		                fatigue += 1;
+		                vie -= 1;
+		                nourri -= 3;
+		                }
+	    	    }
+	    	    else if (choix1 == 2){
+		        	printf("Le refuge se fait attaqué, vous êtes réchauffé est prêt à l'action. Vous arrivez à fair fuir les monstres et à en abattre un ce qui vous fera de la nourriture en plus. Vous êtes néanmoins fatigué \n");
+			        bois -= 2;
+			        nourri +=2;
+			        froid -= 2;
+			        fatigue += 1;
+	        	}
+            }
+           
+           
+	}  
+		
+}
